@@ -1,27 +1,36 @@
 function Hero() {
   return (
-    <section className="flex flex-col items-center justify-center px-6 py-24 text-center">
+    <section className="relative flex min-h-[85vh] flex-col items-center justify-center px-6 text-center">
 
-      <p className="mb-4 rounded-full border border-purple-500 px-4 py-2 text-sm text-purple-300">
-        🚀 AI Powered Promotional Video Platform
-      </p>
+      <div className="mb-6 rounded-full border border-fuchsia-500/40 bg-fuchsia-500/10 px-5 py-2 backdrop-blur-md">
+        <p className="text-sm font-medium text-fuchsia-300">
+          🚀 Next Generation AI Promotional Video Platform
+        </p>
+      </div>
 
-      <h1 className="max-w-4xl text-6xl font-extrabold leading-tight">
-        Create Stunning <span className="text-purple-400">AI Promotional Videos</span> in Minutes
+      <h1 className="max-w-5xl text-5xl font-extrabold leading-tight md:text-7xl">
+        Create
+        <span className="bg-gradient-to-r from-purple-400 via-pink-500 to-cyan-400 bg-clip-text text-transparent">
+          {" "}Amazing AI Videos{" "}
+        </span>
+        in Minutes
       </h1>
 
-      <p className="mt-6 max-w-2xl text-lg text-gray-300">
-        Generate, Edit, Add AI Voice, AI Music, AI Subtitles and Export Professional Videos for Businesses, Shops and Brands.
+      <p className="mt-8 max-w-3xl text-lg leading-8 text-gray-300 md:text-xl">
+        Generate promotional videos with AI Scripts, AI Voice, AI Music,
+        AI Subtitles and One-Click Export for businesses, creators and brands.
       </p>
 
-      <div className="mt-10 flex gap-5">
-        <button className="rounded-xl bg-purple-600 px-7 py-3 font-semibold hover:bg-purple-700">
+      <div className="mt-12 flex flex-col gap-5 sm:flex-row">
+
+        <button className="rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-4 font-bold transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/40">
           🎬 Generate Video
         </button>
 
-        <button className="rounded-xl border border-cyan-400 px-7 py-3 font-semibold hover:bg-cyan-500 hover:text-black">
+        <button className="rounded-2xl border border-cyan-400 px-8 py-4 font-bold transition duration-300 hover:scale-105 hover:bg-cyan-400 hover:text-black">
           ▶ Watch Demo
         </button>
+
       </div>
 
     </section>
