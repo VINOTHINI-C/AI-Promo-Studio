@@ -5,6 +5,7 @@ import Register from "../pages/Register";
 import ForgotPassword from "../pages/ForgotPassword";
 import Dashboard from "../pages/Dashboard";
 import ProtectedRoute from "../components/ProtectedRoute";
+import CreateVideo from "../pages/CreateVideo";
 
 function AppRouter() {
   return (
@@ -19,6 +20,14 @@ function AppRouter() {
   element={
     <ProtectedRoute>
       <Dashboard />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/create-video"
+  element={
+    <ProtectedRoute>
+      <CreateVideo />
     </ProtectedRoute>
   }
 />

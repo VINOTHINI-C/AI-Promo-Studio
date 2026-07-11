@@ -1,5 +1,6 @@
 import DashboardNavbar from "../components/DashboardNavbar";
 import Sidebar from "../components/Sidebar";
+import DashboardCard from "../components/DashboardCard";
 
 function Dashboard() {
   return (
@@ -17,6 +18,33 @@ function Dashboard() {
           <p className="mt-3 text-gray-400">
             Start creating amazing AI promotional videos.
           </p>
+          <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+
+  <DashboardCard
+    icon="🎬"
+    title="Create AI Video"
+    description="Start creating a new AI promotional video."
+  />
+
+  <DashboardCard
+    icon="📁"
+    title="My Projects"
+    description="View all your saved AI video projects."
+  />
+
+  <DashboardCard
+    icon="👤"
+    title="Profile"
+    description="Manage your account information."
+  />
+
+  <DashboardCard
+    icon="⚙️"
+    title="Settings"
+    description="Customize your application settings."
+  />
+
+</div>
         </main>
       </div>
     </div>
