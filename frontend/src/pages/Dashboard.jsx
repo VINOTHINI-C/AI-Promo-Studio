@@ -4,8 +4,8 @@ import DashboardCard from "../components/DashboardCard";
 
 function Dashboard() {
   return (
-    <div className="min-h-screen bg-slate-950">
-      <DashboardNavbar />
+<div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-purple-950">
+        <DashboardNavbar />
 
       <div className="flex">
         <Sidebar />
@@ -21,28 +21,31 @@ function Dashboard() {
           <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
 
   <DashboardCard
-    icon="🎬"
-    title="Create AI Video"
-    description="Start creating a new AI promotional video."
-  />
+  to="/create-video"
+  icon="🎬"
+  title="Create AI Video"
+  description="Start creating a new AI promotional video."
+/>
 
   <DashboardCard
-    icon="📁"
-    title="My Projects"
-    description="View all your saved AI video projects."
-  />
+  to="/projects"
+  icon="📁"
+  title="My Projects"
+  description="View all your saved AI video projects."
+/>
 
   <DashboardCard
-    icon="👤"
-    title="Profile"
-    description="Manage your account information."
-  />
-
+  to="/profile"
+  icon="👤"
+  title="Profile"
+  description="Manage your account information."
+/>
   <DashboardCard
-    icon="⚙️"
-    title="Settings"
-    description="Customize your application settings."
-  />
+  to="/settings"
+  icon="⚙️"
+  title="Settings"
+  description="Customize your application settings."
+/>
 
 </div>
         </main>
