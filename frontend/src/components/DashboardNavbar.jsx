@@ -1,6 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase";
 
 function DashboardNavbar() {
+  const navigate = useNavigate();
+
+const handleLogout = async () => {
+  try {
+    await signOut(auth);
+
+    alert("Logged out successfully 👋");
+
+    navigate("/login");
+  } catch (error) {
+    alert(error.message);
+  }
+};
   return (
     <nav className="sticky top-0 z-50 flex items-center justify-between border-b border-white/10 bg-white/5 px-8 py-4 backdrop-blur-xl">
 
@@ -17,9 +32,12 @@ function DashboardNavbar() {
           👋 Welcome, Vinothini
         </div>
 
-        <button className="rounded-xl bg-gradient-to-r from-red-500 to-pink-600 px-5 py-2 font-semibold text-white transition duration-300 hover:scale-105">
-          Logout
-        </button>
+        <button
+  onClick={handleLogout}
+  className="rounded-xl bg-gradient-to-r from-red-500 to-pink-600 px-5 py-2 font-semibold text-white transition duration-300 hover:scale-105"
+>
+  Logout
+</button>
 
       </div>
 
