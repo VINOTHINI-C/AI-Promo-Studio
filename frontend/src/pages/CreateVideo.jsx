@@ -8,7 +8,13 @@ const [companyName, setCompanyName] = useState("");
 const [businessCategory, setBusinessCategory] = useState("");
 const [logo, setLogo] = useState(null);
 const [photos, setPhotos] = useState([]);
+const [detectedProducts, setDetectedProducts] = useState([]);
 
+const removePhoto = (indexToRemove) => {
+  setPhotos((prevPhotos) =>
+    prevPhotos.filter((_, index) => index !== indexToRemove)
+  );
+};
 const handleGenerate = async () => {
   if (!prompt.trim()) {
     alert("Please enter a prompt.");
@@ -19,8 +25,9 @@ const handleGenerate = async () => {
   setResponse("");
 
   try {
-    const result = await generateScript(prompt);
-    setResponse(result);
+   const result = await generateScript(prompt, photos);
+    setResponse(result.script);
+setDetectedProducts(result.detectedProducts || []);
   } catch (error) {
     console.error(error);
     setResponse("Something went wrong.");
@@ -104,13 +111,15 @@ const handleGenerate = async () => {
         alt="Company Logo"
         className="h-32 w-32 rounded-xl border border-slate-700 object-cover"
       />
+      
     </div>
+        
   )}
 </div>
 <div className="mb-6">
   <label className="mb-2 block text-lg font-semibold">
-    Product Photos (Max 15)
-  </label>
+  Product Photos ({photos.length} / 15 Uploaded)
+</label>
 
   <input
     type="file"
@@ -135,6 +144,12 @@ const handleGenerate = async () => {
           alt={`Product ${index + 1}`}
           className="h-32 w-full rounded-lg object-cover"
         />
+        <button
+  onClick={() => removePhoto(index)}
+  className="mt-2 w-full rounded-lg bg-red-600 py-2 text-sm font-semibold text-white hover:bg-red-700"
+>
+  ❌ Remove
+</button>
 
         <p className="mt-2 truncate text-center text-sm text-gray-300">
           {photo.name}
@@ -230,6 +245,30 @@ disabled={loading}
     </pre>
   </div>
 )}
+
+<div className="mt-8 rounded-2xl border border-blue-500/30 bg-slate-900 p-6">
+  <h2 className="mb-4 text-2xl font-bold text-blue-400">
+    📦 Detected Products
+  </h2>
+
+  {detectedProducts.length === 0 ? (
+    <p className="text-gray-400">
+      No products detected yet.
+    </p>
+  ) : (
+    <ul className="space-y-2">
+      {detectedProducts.map((product, index) => (
+        <li
+          key={index}
+          className="rounded-lg bg-slate-800 p-3"
+        >
+          ✅ {product}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+ 
 
 
 </div>
