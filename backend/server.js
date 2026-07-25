@@ -50,24 +50,91 @@ if (photos && photos.length > 0) {
   contents: [
     ...imageParts,
     {
-      text: `
-Analyze these uploaded images.
+        text: `
+You are an expert Marketing Director and Professional Video Creator.
 
-Return ONLY the detected product names.
+Analyze all uploaded product images.
 
-Example:
+Generate your response in EXACTLY this format.
 
-Laptop
-Mouse
-Keyboard
+📦 PRODUCTS DETECTED
+(List every detected product)
 
-No explanation.
-No numbering.
-No extra text.
+🎬 STORYBOARD
+Scene 1
+Describe first video scene.
 
-User Prompt:
+
+Scene 2
+Describe second video scene.
+
+Scene 3
+Describe third video scene.
+🎬 STORYBOARD
+Scene 1
+Describe first video scene.
+
+Scene 2
+Describe second video scene.
+
+Scene 3
+Describe third video scene.
+
+🎥 CAMERA SHOTS
+
+Scene 1
+Camera :
+Movement :
+Duration :
+
+Scene 2
+Camera :
+Movement :
+Duration :
+
+Scene 3
+Camera :
+Movement :
+Duration :
+
+🎨 COLOR GRADING
+
+Suggest one professional color grading.
+
+✨ TRANSITIONS
+
+Suggest transitions.
+
+🎞 VIDEO EFFECTS
+
+Suggest professional video effects.
+
+🎤 VOICE OVER
+
+Write a professional promotional voice over.
+
+🎵 BACKGROUND MUSIC
+
+Suggest one suitable music style.
+
+📢 CALL TO ACTION
+
+Write a strong marketing ending.
+
+🎤 VOICE OVER
+Write a professional promotional voice over.
+
+🎵 BACKGROUND MUSIC
+Suggest one suitable music style.
+
+📢 CALL TO ACTION
+Write a strong marketing ending.
+
+Company Prompt:
 ${prompt}
-      `,
+
+Do NOT skip any section.
+`,
     },
   ],
 });

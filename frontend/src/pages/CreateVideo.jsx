@@ -9,6 +9,14 @@ const [businessCategory, setBusinessCategory] = useState("");
 const [logo, setLogo] = useState(null);
 const [photos, setPhotos] = useState([]);
 const [detectedProducts, setDetectedProducts] = useState([]);
+const [storyboard, setStoryboard] = useState("");
+const [voiceOver, setVoiceOver] = useState("");
+const [music, setMusic] = useState("");
+const [cta, setCta] = useState("");
+const [cameraShots, setCameraShots] = useState("");
+const [colorGrading, setColorGrading] = useState("");
+const [transitions, setTransitions] = useState("");
+const [effects, setEffects] = useState("");
 
 const removePhoto = (indexToRemove) => {
   setPhotos((prevPhotos) =>
@@ -27,7 +35,54 @@ const handleGenerate = async () => {
   try {
    const result = await generateScript(prompt, photos);
     setResponse(result.script);
-setDetectedProducts(result.detectedProducts || []);
+
+const script = result.script || "";
+
+const storyboardMatch =
+  script.match(/🎬 STORYBOARD([\s\S]*?)🎤 VOICE OVER/);
+
+const voiceMatch =
+  script.match(/🎤 VOICE OVER([\s\S]*?)🎵 BACKGROUND MUSIC/);
+
+const musicMatch =
+  script.match(/🎵 BACKGROUND MUSIC([\s\S]*?)📢 CALL TO ACTION/);
+  const cameraMatch =
+  script.match(/🎥 CAMERA SHOTS([\s\S]*?)🎨 COLOR GRADING/);
+
+const colorMatch =
+  script.match(/🎨 COLOR GRADING([\s\S]*?)✨ TRANSITIONS/);
+
+const transitionMatch =
+  script.match(/✨ TRANSITIONS([\s\S]*?)🎞 VIDEO EFFECTS/);
+
+const effectsMatch =
+  script.match(/🎞 VIDEO EFFECTS([\s\S]*?)🎤 VOICE OVER/);
+
+const ctaMatch =
+  script.match(/📢 CALL TO ACTION([\s\S]*)/);
+
+setStoryboard(storyboardMatch?.[1]?.trim() || "");
+setVoiceOver(voiceMatch?.[1]?.trim() || "");
+setMusic(musicMatch?.[1]?.trim() || "");
+setCta(ctaMatch?.[1]?.trim() || "");
+setCameraShots(cameraMatch?.[1]?.trim() || "");
+setColorGrading(colorMatch?.[1]?.trim() || "");
+setTransitions(transitionMatch?.[1]?.trim() || "");
+setEffects(effectsMatch?.[1]?.trim() || "");
+
+const productSection =
+script.match(/📦 PRODUCTS DETECTED([\s\S]*?)🎬 STORYBOARD/);
+
+if(productSection){
+
+const products = productSection[1]
+.split("\n")
+.map((p)=>p.trim())
+.filter((p)=>p);
+
+setDetectedProducts(products);
+
+}
   } catch (error) {
     console.error(error);
     setResponse("Something went wrong.");
@@ -234,17 +289,7 @@ disabled={loading}
   </button>
 
 </div>
-{response && (
-  <div className="mt-8 rounded-2xl border border-green-500/30 bg-green-500/10 p-6">
-    <h2 className="mb-4 text-2xl font-bold text-green-400">
-      🤖 AI Generated Script
-    </h2>
 
-    <pre className="whitespace-pre-wrap text-gray-200">
-      {response}
-    </pre>
-  </div>
-)}
 
 <div className="mt-8 rounded-2xl border border-blue-500/30 bg-slate-900 p-6">
   <h2 className="mb-4 text-2xl font-bold text-blue-400">
@@ -267,6 +312,45 @@ disabled={loading}
       ))}
     </ul>
   )}
+</div>
+<div className="mt-8 rounded-2xl border border-purple-500/30 bg-slate-900 p-6">
+  <h2 className="mb-4 text-2xl font-bold text-purple-400">
+    🎬 Storyboard
+  </h2>
+
+  <pre className="whitespace-pre-wrap text-gray-200">
+    {storyboard || "No storyboard generated yet."}
+  </pre>
+</div>
+
+<div className="mt-8 rounded-2xl border border-green-500/30 bg-slate-900 p-6">
+  <h2 className="mb-4 text-2xl font-bold text-green-400">
+    🎤 Voice Over
+  </h2>
+
+  <pre className="whitespace-pre-wrap text-gray-200">
+    {voiceOver || "No voice over generated yet."}
+  </pre>
+</div>
+
+<div className="mt-8 rounded-2xl border border-yellow-500/30 bg-slate-900 p-6">
+  <h2 className="mb-4 text-2xl font-bold text-yellow-400">
+    🎵 Background Music
+  </h2>
+
+  <p className="text-gray-200">
+    {music || "No music suggestion yet."}
+  </p>
+</div>
+
+<div className="mt-8 rounded-2xl border border-pink-500/30 bg-slate-900 p-6">
+  <h2 className="mb-4 text-2xl font-bold text-pink-400">
+    📢 Call To Action
+  </h2>
+
+  <pre className="whitespace-pre-wrap text-gray-200">
+    {cta || "No call to action generated yet."}
+  </pre>
 </div>
  
 
