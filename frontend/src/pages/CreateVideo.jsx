@@ -17,6 +17,7 @@ const [cameraShots, setCameraShots] = useState("");
 const [colorGrading, setColorGrading] = useState("");
 const [transitions, setTransitions] = useState("");
 const [effects, setEffects] = useState("");
+const [imagePrompts, setImagePrompts] = useState("");
 
 const removePhoto = (indexToRemove) => {
   setPhotos((prevPhotos) =>
@@ -39,27 +40,28 @@ const handleGenerate = async () => {
 const script = result.script || "";
 
 const storyboardMatch =
-  script.match(/🎬 STORYBOARD([\s\S]*?)🎤 VOICE OVER/);
-
+  script.match(/🎬\s*\**STORYBOARD\**([\s\S]*?)(?=🎥|🎨|✨|🎞|🎤|$)/);
 const voiceMatch =
   script.match(/🎤 VOICE OVER([\s\S]*?)🎵 BACKGROUND MUSIC/);
 
 const musicMatch =
   script.match(/🎵 BACKGROUND MUSIC([\s\S]*?)📢 CALL TO ACTION/);
+  
   const cameraMatch =
-  script.match(/🎥 CAMERA SHOTS([\s\S]*?)🎨 COLOR GRADING/);
-
+  script.match(/🎥\s*\**CAMERA SHOTS\**([\s\S]*?)(?=🎨|✨|🎞|🎤|$)/);
 const colorMatch =
-  script.match(/🎨 COLOR GRADING([\s\S]*?)✨ TRANSITIONS/);
-
+  script.match(/🎨\s*\**COLOR GRADING\**([\s\S]*?)(?=✨|🎞|🎤|📢|🎨|$)/);
 const transitionMatch =
-  script.match(/✨ TRANSITIONS([\s\S]*?)🎞 VIDEO EFFECTS/);
+  
+  script.match(/✨\s*\**TRANSITIONS\**([\s\S]*?)(?=🎞|🎤|📢|🎨|$)/);
 
 const effectsMatch =
   script.match(/🎞 VIDEO EFFECTS([\s\S]*?)🎤 VOICE OVER/);
 
 const ctaMatch =
   script.match(/📢 CALL TO ACTION([\s\S]*)/);
+  const imagePromptMatch =
+script.match(/🎨 AI IMAGE PROMPTS([\s\S]*)/);
 
 setStoryboard(storyboardMatch?.[1]?.trim() || "");
 setVoiceOver(voiceMatch?.[1]?.trim() || "");
@@ -69,6 +71,7 @@ setCameraShots(cameraMatch?.[1]?.trim() || "");
 setColorGrading(colorMatch?.[1]?.trim() || "");
 setTransitions(transitionMatch?.[1]?.trim() || "");
 setEffects(effectsMatch?.[1]?.trim() || "");
+setImagePrompts(imagePromptMatch?.[1]?.trim() || "");
 
 const productSection =
 script.match(/📦 PRODUCTS DETECTED([\s\S]*?)🎬 STORYBOARD/);
@@ -350,6 +353,15 @@ disabled={loading}
 
   <pre className="whitespace-pre-wrap text-gray-200">
     {cta || "No call to action generated yet."}
+  </pre>
+</div>
+<div className="mt-8 rounded-2xl border border-cyan-500/30 bg-slate-900 p-6">
+  <h2 className="mb-4 text-2xl font-bold text-cyan-400">
+    🎨 AI Image Prompts
+  </h2>
+
+  <pre className="whitespace-pre-wrap text-gray-200">
+    {imagePrompts || "No image prompts generated yet."}
   </pre>
 </div>
  

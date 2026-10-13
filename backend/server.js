@@ -8,7 +8,7 @@ dotenv.config();
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 });
-
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const app = express();
 
 const upload = multer({
@@ -44,13 +44,17 @@ if (photos && photos.length > 0) {
 }
     
 
-    const response = await ai.models.generateContent({
-  model: "gemini-3-flash-preview",
+    let response;
 
-  contents: [
-    ...imageParts,
-    {
-        text: `
+for (let attempt = 1; attempt <= 3; attempt++) {
+  try {
+    console.log("Gemini request started...");
+    response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: [
+        ...imageParts,
+        {
+          text: `
 You are an expert Marketing Director and Professional Video Creator.
 
 Analyze all uploaded product images.
@@ -61,49 +65,28 @@ Generate your response in EXACTLY this format.
 (List every detected product)
 
 🎬 STORYBOARD
-Scene 1
-Describe first video scene.
+Create exactly 8 scenes.
 
-
-Scene 2
-Describe second video scene.
-
-Scene 3
-Describe third video scene.
-🎬 STORYBOARD
-Scene 1
-Describe first video scene.
-
-Scene 2
-Describe second video scene.
-
-Scene 3
-Describe third video scene.
+Each scene should contain:
+- Scene Title
+- Scene Description
+- Duration
 
 🎥 CAMERA SHOTS
 
-Scene 1
-Camera :
-Movement :
-Duration :
-
-Scene 2
-Camera :
-Movement :
-Duration :
-
-Scene 3
-Camera :
-Movement :
-Duration :
+For every scene provide:
+- Camera Angle
+- Camera Movement
+- Lens
+- Shot Type
 
 🎨 COLOR GRADING
 
-Suggest one professional color grading.
+Suggest one premium cinematic color grading.
 
 ✨ TRANSITIONS
 
-Suggest transitions.
+Suggest transitions between every scene.
 
 🎞 VIDEO EFFECTS
 
@@ -115,30 +98,50 @@ Write a professional promotional voice over.
 
 🎵 BACKGROUND MUSIC
 
-Suggest one suitable music style.
+Suggest suitable background music.
 
 📢 CALL TO ACTION
 
-Write a strong marketing ending.
+Write a professional ending.
 
-🎤 VOICE OVER
-Write a professional promotional voice over.
+🎨 AI IMAGE PROMPTS
 
-🎵 BACKGROUND MUSIC
-Suggest one suitable music style.
+Generate exactly 8 AI image prompts.
 
-📢 CALL TO ACTION
-Write a strong marketing ending.
+Each prompt should include:
 
+• Ultra Realistic
+• 8K
+• Cinematic
+• Photorealistic
+• HDR
+• Volumetric Lighting
+• Highly Detailed
+• Professional Product Photography
+• Suitable for Google Veo 3, Runway Gen-4, Kling AI, Midjourney v7 and Flux.
+
+One prompt for each storyboard scene.
 Company Prompt:
 ${prompt}
 
+Use the uploaded product images together with the company prompt to create the complete promotional video plan.
+
 Do NOT skip any section.
 `,
-    },
-  ],
-});
+        },
+      ],
+    });
 
+    break; // Success
+  } catch (err) {
+    if (err.status === 503 && attempt < 3) {
+      console.log(`⚠ Gemini busy... Retrying (${attempt}/3)`);
+      await sleep(2000);
+    } else {
+      throw err;
+    }
+  }
+}
 const script = response.text || "";
 res.json({
   success: true,
