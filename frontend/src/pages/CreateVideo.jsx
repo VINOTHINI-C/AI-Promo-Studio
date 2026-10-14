@@ -42,10 +42,11 @@ const script = result.script || "";
 const storyboardMatch =
   script.match(/🎬\s*\**STORYBOARD\**([\s\S]*?)(?=🎥|🎨|✨|🎞|🎤|$)/);
 const voiceMatch =
-  script.match(/🎤 VOICE OVER([\s\S]*?)🎵 BACKGROUND MUSIC/);
+ script.match(/🎤\s*\**VOICE OVER\**\s*([\s\S]*?)(?=🎵|BACKGROUND MUSIC|📢|CALL TO ACTION|$)/i);
 
 const musicMatch =
-  script.match(/🎵 BACKGROUND MUSIC([\s\S]*?)📢 CALL TO ACTION/);
+  script.match(/🎵\s*\**BACKGROUND MUSIC\**\s*([\s\S]*?)(?=📢|CALL TO ACTION|🎨|AI IMAGE PROMPTS|$)/i
+);
   
   const cameraMatch =
   script.match(/🎥\s*\**CAMERA SHOTS\**([\s\S]*?)(?=🎨|✨|🎞|🎤|$)/);
@@ -59,9 +60,11 @@ const effectsMatch =
   script.match(/🎞 VIDEO EFFECTS([\s\S]*?)🎤 VOICE OVER/);
 
 const ctaMatch =
-  script.match(/📢 CALL TO ACTION([\s\S]*)/);
-  const imagePromptMatch =
-script.match(/🎨 AI IMAGE PROMPTS([\s\S]*)/);
+  script.match(/📢\s*\**CALL TO ACTION\**\s*([\s\S]*?)(?=🎨|AI IMAGE PROMPTS|$)/i);
+ 
+const imagePromptMatch =
+  script.match(/🎨\s*\**AI IMAGE PROMPTS\**\s*([\s\S]*?)(?=🎥|🎤|🎵|📢|$)/i);
+
 
 setStoryboard(storyboardMatch?.[1]?.trim() || "");
 setVoiceOver(voiceMatch?.[1]?.trim() || "");
@@ -73,8 +76,9 @@ setTransitions(transitionMatch?.[1]?.trim() || "");
 setEffects(effectsMatch?.[1]?.trim() || "");
 setImagePrompts(imagePromptMatch?.[1]?.trim() || "");
 
+
 const productSection =
-script.match(/📦 PRODUCTS DETECTED([\s\S]*?)🎬 STORYBOARD/);
+  script.match(/📦\s*\**PRODUCTS DETECTED\**\s*([\s\S]*?)(?=🎬\s*\**STORYBOARD\**|$)/i);
 
 if(productSection){
 
